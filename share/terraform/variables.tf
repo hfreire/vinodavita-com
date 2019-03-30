@@ -1,0 +1,38 @@
+variable "infrastructure_name" {
+  default = "antifragile-infrastructure"
+}
+
+variable "docker_repo" {}
+
+variable "name" {
+  default = "vinodavita-com"
+}
+
+variable "version" {}
+
+
+variable "aws_region" {
+  default = "eu-west-1"
+}
+
+variable "service_desired_count" {
+  default = 3
+}
+
+variable "api_keys" {
+  type    = "list"
+  default = [ ]
+}
+
+variable "cdn_cnames" {
+  type    = "list"
+  default = [ ]
+}
+
+variable "cdn_redirect_cname" {
+  default = ""
+}
+
+variable "url" {
+  default = ""
+}

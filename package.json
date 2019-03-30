@@ -1,0 +1,90 @@
+{
+  "name": "vinodavita-com",
+  "description": "",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">= 6.0.0"
+  },
+  "author": "Hugo Freire <hfreire@exec.sh>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hfreire/vinodavita-com.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hfreire/vinodavita-com/issues"
+  },
+  "homepage": "https://github.com/hfreire/vinodavita-com#readme",
+  "devDependencies": {
+    "coveralls": "3.0.3",
+    "eslint": "5.15.2",
+    "eslint-config-hfreire": "2.0.1",
+    "eslint-plugin-import": "2.16.0",
+    "eslint-plugin-jest": "22.4.1",
+    "eslint-plugin-json": "1.4.0",
+    "eslint-plugin-mocha": "5.3.0",
+    "eslint-plugin-node": "8.0.1",
+    "eslint-plugin-promise": "4.0.1",
+    "eslint-plugin-standard": "4.0.0",
+    "eslint-plugin-unicorn": "8.0.0",
+    "jest": "24.5.0",
+    "npm-merge-driver": "2.3.5",
+    "pre-git": "3.17.1",
+    "semantic-release": "15.13.3",
+    "snyk": "1.143.1"
+  },
+  "config": {
+    "posts_per_page": 15,
+    "pre-git": {
+      "commit-msg": "conventional",
+      "allow-untracked-files": true
+    }
+  },
+  "snyk": true,
+  "jest": {
+    "testEnvironment": "node",
+    "setupTestFrameworkScriptFile": "./test/helper.js",
+    "testMatch": [
+      "<rootDir>/test/**.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "./test/helper.js"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
+  },
+  "release": {
+    "publish": [
+      {
+        "path": "@semantic-release/npm",
+        "npmPublish": false
+      },
+      "@semantic-release/github"
+    ],
+    "analyzeCommits": "simple-commit-message"
+  },
+  "scripts": {
+    "eslint": "./node_modules/.bin/eslint --ext .json --ext .js .",
+    "jest": "./node_modules/.bin/jest",
+    "snyk:test": "./node_modules/.bin/snyk test",
+    "snyk:protect": "./node_modules/.bin/snyk protect",
+    "docker:build": "DOCKER_REPO=hfreire NAME=$npm_package_name ./share/docker/scripts/build",
+    "docker:push": "DOCKER_REPO=hfreire NAME=$npm_package_name ./share/docker/scripts/push",
+    "docker:test": "DOCKER_REPO=hfreire NAME=$npm_package_name ./share/docker/scripts/test",
+    "terraform:deploy": "DOCKER_REPO=hfreire NAME=$npm_package_name ./share/terraform/scripts/deploy",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "semantic-release": "./node_modules/.bin/semantic-release",
+    "clean": "rm -rf coverage",
+    "lint": "npm run eslint",
+    "prepare": "npm run snyk:protect",
+    "test": "npm run clean && npm run lint && npm run jest",
+    "commit": "./node_modules/.bin/commit-wizard",
+    "build": "npm run docker:build",
+    "push": "npm run docker:push",
+    "deploy": "npm run terraform:deploy",
+    "develop": "docker run -p 6734:3000 -e NODE_ENV=development -e url=http://localhost:6734 -v $(pwd)/src/:/var/lib/ghost/content/themes/vinodavita-com/ hfreire/vinodavita-com"
+  }
+}
