@@ -20,12 +20,16 @@ data "template_file" "container_definitions" {
     name  = "${var.name}"
     image = "${var.docker_repo}/${var.name}:${var.version}"
 
-    url = "${var.url}"
+    url                       = "${var.url}"
+    mail__from                = "${var.mail__from}"
+    mail__options__host       = "${var.mail__options__host}"
+    mail__options__auth__user = "${var.mail__options__auth__user}"
+    mail__options__auth__pass = "${var.mail__options__auth__pass}"
   }
 }
 
 module "vinodavita-com" {
-  source = "../../../antifragile-service"
+  source = "github.com/antifragile-systems/antifragile-service"
 
   name       = "${var.name}"
   aws_region = "${var.aws_region}"
@@ -35,7 +39,8 @@ module "vinodavita-com" {
   container_definitions            = "${data.template_file.container_definitions.rendered}"
   health_check_path_preappend_name = false
 
-  cdn_enabled        = 1
-  cdn_cnames         = "${var.cdn_cnames}"
-  cdn_redirect_cname = "${var.cdn_redirect_cname}"
+  cdn_enabled            = 1
+  cdn_hostname           = "${var.cdn_hostname}"
+  cdn_hostname_aliases   = "${var.cdn_hostname_aliases}"
+  cdn_hostname_redirects = "${var.cdn_hostname_redirects}"
 }

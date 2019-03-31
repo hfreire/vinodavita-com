@@ -24,15 +24,35 @@ variable "api_keys" {
   default = [ ]
 }
 
-variable "cdn_cnames" {
+variable "cdn_hostname" {
+}
+
+variable "cdn_hostname_aliases" {
   type    = "list"
   default = [ ]
 }
 
-variable "cdn_redirect_cname" {
-  default = ""
+variable "cdn_hostname_redirects" {
+  type    = "list"
+  default = [ ]
 }
 
 variable "url" {
+  default = ""
+}
+
+variable "mail__from" {
+  default = ""
+}
+
+variable "mail__options__host" {
+  default = ""
+}
+
+variable "mail__options__auth__user" {
+  default = ""
+}
+
+variable "mail__options__auth__pass" {
   default = ""
 }
