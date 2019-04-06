@@ -6,5 +6,3 @@ tmp
 
 .terraform*
 terraform.*
-
-src/
