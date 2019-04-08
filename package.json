@@ -5,7 +5,7 @@
   "engines": {
     "node": ">= 6.0.0"
   },
-  "author": "Hugo Freire <hfreire@exec.sh>",
+  "author": "Hugo Freire <hugo@exec.sh>",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -31,10 +31,34 @@
     "npm-merge-driver": "2.3.5",
     "pre-git": "3.17.1",
     "semantic-release": "15.13.3",
-    "snyk": "1.143.1"
+    "snyk": "1.143.1",
+    "bower": "1.8.8",
+    "dart-sass": "1.14.3",
+    "gulp": "4.0.0",
+    "node-sass": "4.10.0",
+    "clipboard": "2.0.0",
+    "concat": "3.0.0",
+    "evil-icons": "1.8.0",
+    "fs": "0.0.2",
+    "gulp-autoprefixer": "4.0.0",
+    "gulp-clean-css": "3.7.0",
+    "gulp-concat": "2.6.0",
+    "gulp-plumber": "1.0.1",
+    "gulp-rename": "1.2.2",
+    "gulp-replace": "0.6.1",
+    "gulp-sass": "3.1.0",
+    "gulp-size": "3.0.0",
+    "gulp-uglify": "3.0.0",
+    "gulp-util": "3.0.7",
+    "jshint": "2.9.6",
+    "jshint-stylish": "2.2.0",
+    "lunr": "0.7.0",
+    "lunr-languages": "1.0.0",
+    "primer-tooltips": "1.5.3",
+    "prismjs": "1.6.0",
+    "run-sequence": "2.1.0"
   },
   "config": {
-    "posts_per_page": 15,
     "pre-git": {
       "commit-msg": "conventional",
       "allow-untracked-files": true
@@ -81,10 +105,13 @@
     "lint": "npm run eslint",
     "prepare": "npm run snyk:protect",
     "test": "npm run clean && npm run lint && npm run jest",
+    "bower:install": "./node_modules/.bin/bower install",
+    "gulp:build": "./node_modules/.bin/gulp build",
+    "compile": "npm run clean && npm run bower:install && npm run gulp:build",
     "commit": "./node_modules/.bin/commit-wizard",
     "build": "npm run docker:build",
     "push": "npm run docker:push",
     "deploy": "npm run terraform:deploy",
-    "develop": "docker run -p 6734:3000 -e NODE_ENV=development -e url=http://localhost:6734 -v $(pwd)/src/:/var/lib/ghost/content/themes/vinodavita-com/ hfreire/vinodavita-com"
+    "develop": "docker run -p 6734:3000 -e NODE_ENV=development -e url=http://localhost:6734 -v $(pwd)/src/:/home/node/vinodavita-com/src/ hfreire/vinodavita-com"
   }
 }

@@ -1,0 +1,21 @@
+/*!
+ * Copyright (c) 2019, Hugo Freire <hugo@exec.sh>.
+ *
+ * This source code is licensed under the license found in the
+ * LICENSE.md file in the root directory of this source tree.
+ */
+
+/*------------------------------------*\
+  Elements > Page
+\*------------------------------------*/
+
+body {
+  color: $color-text;
+  font-size: $font-size-medium;
+  font-family: $font-sans-serif;
+  line-height: $line-height-base;
+  background-color: $bg-color;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

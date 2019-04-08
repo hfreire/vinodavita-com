@@ -9,3 +9,5 @@ tmp
 
 **/.terraform
 **/terraform.*
+
+bower_components

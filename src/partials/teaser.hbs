@@ -1,0 +1,13 @@
+<a href='{{ url }}' class='c-teaser'>
+  <div class='c-teaser__content'>
+    <h3 class='c-teaser__title'>{{ title }}</h3>
+    <time class='c-teaser__date' datetime='{{ date format='YYYY-MM-DD' }}'
+          title='{{ date format='DD MMMM YYYY' }}'>{{ date format='DD.MMM.YYYY' }}</time>
+  </div>
+  {{#if feature_image}}
+    <div class='c-teaser__media'>
+      <div class='c-teaser__image js-fadein' style='background-image: url({{ feature_image }})'
+           aria-label='{{ title }}'></div>
+    </div>
+  {{/if}}
+</a>

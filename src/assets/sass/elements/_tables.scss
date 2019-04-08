@@ -1,0 +1,42 @@
+/*!
+ * Copyright (c) 2019, Hugo Freire <hugo@exec.sh>.
+ *
+ * This source code is licensed under the license found in the
+ * LICENSE.md file in the root directory of this source tree.
+ */
+
+/*------------------------------------*\
+  Elements > Table
+\*------------------------------------*/
+
+table {
+  width: 100%;
+  max-width: 100%;
+
+  th,
+  td {
+    padding: $base-spacing-unit;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid $color-border;
+    font-weight: $font-weight-regular;
+  }
+
+  thead th {
+    font-weight: $font-weight-medium;
+    text-transform: uppercase;
+    font-size: $font-size-small;
+    vertical-align: bottom;
+    border-bottom: 2px solid $color-border;
+  }
+
+  tbody + tbody {
+    border-top: 2px solid $color-border;
+  }
+}
+
+.responsive-table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
