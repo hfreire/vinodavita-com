@@ -5,7 +5,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/hfreire/vinodavita-com/badge.svg)](https://snyk.io/test/github/hfreire/vinodavita-com)
 [![](https://img.shields.io/github/release/hfreire/vinodavita-com.svg)](https://github.com/hfreire/vinodavita-com/releases)
 [![Docker Stars](https://img.shields.io/docker/stars/hfreire/vinodavita-com.svg)](https://hub.docker.com/r/hfreire/vinodavita-com/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/hfreire/vinodavita-com.svg)](https://hub.docker.com/r/hfreire/vinodavita-com/) [![Greenkeeper badge](https://badges.greenkeeper.io/hfreire/vinodavita-com.svg)](https://greenkeeper.io/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/hfreire/vinodavita-com.svg)](https://hub.docker.com/r/hfreire/vinodavita-com/)
 
 > Uses Ghost blogging platform for publishing and managing content online
 
