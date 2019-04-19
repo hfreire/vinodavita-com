@@ -4,4 +4,5 @@ node_modules
 share
 package*.json
 
-src/assets/scripts
+gulpfile.js
+src/assets/js
