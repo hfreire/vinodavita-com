@@ -17,6 +17,7 @@
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
+    plumber = require('gulp-plumber'),
     gutil = require('gulp-util'),
     replace = require('gulp-replace'),
     size = require('gulp-size'),
@@ -34,6 +35,7 @@
   // SASS
   gulp.task('sass', function (done) {
     return gulp.src('./src/assets/sass/*.scss')
+      .pipe(plumber({ errorHandler: onError }))
       .pipe(sass())
       .pipe(autoprefixer())
       .pipe(rename({ suffix: '.min' }))
