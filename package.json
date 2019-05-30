@@ -41,7 +41,7 @@
     "evil-icons": "1.10.1",
     "fs": "0.0.2",
     "gulp-autoprefixer": "6.1.0",
-    "gulp-clean-css": "4.1.0",
+    "gulp-clean-css": "4.2.0",
     "gulp-concat": "2.6.1",
     "gulp-plumber": "1.2.1",
     "gulp-rename": "1.4.0",
