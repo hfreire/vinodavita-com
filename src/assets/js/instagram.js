@@ -21,8 +21,8 @@ $(document).ready(function () {
     get: 'user',
     limit: 4,
     resolution: 'standard_resolution',
-    userId: '9268890053',
-    accessToken: '9268890053.1677ed0.4860ac9184e2427389df96605a6dd73c',
+    userId: '',
+    accessToken: '',
     template:
       '<div class="c-widget-instagram__item"><a href="{{link}}" title="{{caption}}" aria-label="{{caption}}" target="_blank" class="c-widget-instagram__image" style="background-image: url({{image}})"></a></div>'
   })
