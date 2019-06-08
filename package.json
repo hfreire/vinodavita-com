@@ -112,6 +112,6 @@
     "build": "npm run docker:build",
     "push": "npm run docker:push",
     "deploy": "npm run terraform:deploy",
-    "develop": "docker run -p 6734:3000 -e NODE_ENV=development -e url=http://localhost:6734 -v $(pwd)/src/:/home/node/vinodavita-com/src/ hfreire/vinodavita-com"
+    "develop": "docker run -p 6734:3000 -e url=http://localhost:6734 -v $(pwd)/src/:/home/node/vinodavita-com/src/ hfreire/vinodavita-com"
   }
 }
