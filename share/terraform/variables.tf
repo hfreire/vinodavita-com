@@ -1,15 +1,22 @@
+variable "state_aws_region" {
+}
+
+variable "state_aws_s3_bucket" {
+}
+
 variable "infrastructure_name" {
   default = "antifragile-infrastructure"
 }
 
-variable "docker_repo" {}
+variable "docker_repo" {
+}
+
+variable "docker_image_tag" {
+}
 
 variable "name" {
   default = "vinodavita-com"
 }
-
-variable "version" {}
-
 
 variable "aws_region" {
   default = "eu-west-1"
@@ -20,7 +27,7 @@ variable "service_desired_count" {
 }
 
 variable "api_keys" {
-  type    = "list"
+  type    = list(string)
   default = [ ]
 }
 
@@ -28,12 +35,12 @@ variable "cdn_hostname" {
 }
 
 variable "cdn_hostname_aliases" {
-  type    = "list"
+  type    = list(string)
   default = [ ]
 }
 
 variable "cdn_hostname_redirects" {
-  type    = "list"
+  type    = list(string)
   default = [ ]
 }
 
@@ -56,3 +63,4 @@ variable "mail__options__auth__user" {
 variable "mail__options__auth__pass" {
   default = ""
 }
+
