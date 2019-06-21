@@ -23,6 +23,7 @@ terraform plan \
 -var "state_aws_s3_bucket=${ANTIFRAGILE_STATE_AWS_S3_BUCKET}" \
 -var "docker_repo=${DOCKER_REPO}" \
 -var "docker_image_tag=${VERSION}" \
+-target=module.${NAME} \
 -out terraform.tfplan || exit 1
 
 terraform apply -auto-approve terraform.tfplan || exit 1

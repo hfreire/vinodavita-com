@@ -26,11 +26,6 @@ variable "service_desired_count" {
   default = 3
 }
 
-variable "api_keys" {
-  type    = list(string)
-  default = [ ]
-}
-
 variable "cdn_hostname" {
 }
 
@@ -64,3 +59,6 @@ variable "mail__options__auth__pass" {
   default = ""
 }
 
+variable "database_user_password" {
+  default = ""
+}

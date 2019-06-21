@@ -61,3 +61,11 @@ module "vinodavita-com" {
   cdn_hostname_redirects = var.cdn_hostname_redirects
 }
 
+module "database" {
+  source = "github.com/antifragile-systems/antifragile-database"
+
+  infrastructure_name = var.infrastructure_name
+  name                = var.name
+
+  user_password = var.database_user_password
+}
