@@ -49,7 +49,6 @@ module "vinodavita-com" {
   name       = var.name
   aws_region = var.aws_region
 
-  loadbalancer_session_stickiness_enabled = true
   service_desired_count                   = var.service_desired_count
 
   container_definitions            = data.template_file.container_definitions.rendered

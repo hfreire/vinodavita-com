@@ -23,7 +23,8 @@ variable "aws_region" {
 }
 
 variable "service_desired_count" {
-  default = 3
+  // https://ghost.org/faq/clustering-sharding-multi-server/?_ga=2.230977878.855100731.1561154377-2032773571.1561154377
+  default = 1
 }
 
 variable "cdn_hostname" {
@@ -60,5 +61,5 @@ variable "mail__options__auth__pass" {
 }
 
 variable "database_user_password" {
-  default = ""
+  default = null
 }

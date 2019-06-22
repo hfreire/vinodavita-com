@@ -19,6 +19,7 @@ terraform get -update=true || exit 1
 terraform taint module.${NAME}.module.cluster.module.services.module.tasks.aws_ecs_task_definition.antifragile-service
 
 terraform plan \
+-input=false \
 -var "state_aws_region=${ANTIFRAGILE_STATE_AWS_REGION}" \
 -var "state_aws_s3_bucket=${ANTIFRAGILE_STATE_AWS_S3_BUCKET}" \
 -var "docker_repo=${DOCKER_REPO}" \
@@ -26,7 +27,7 @@ terraform plan \
 -target=module.${NAME} \
 -out terraform.tfplan || exit 1
 
-terraform apply -auto-approve terraform.tfplan || exit 1
+terraform apply -input=false -auto-approve terraform.tfplan || exit 1
 
 terraform output -json | jq 'with_entries(.value |= .value)' > terraform.json || exit 1
 
