@@ -1,8 +1,0 @@
-.idea
-coverage
-node_modules
-share
-package*.json
-
-gulpfile.js
-src/assets/js

@@ -1,10 +1,2 @@
 .idea
-coverage
-node_modules
-tmp
 *.iml
-
-.terraform*
-terraform.*
-
-bower_components
