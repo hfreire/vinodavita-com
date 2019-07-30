@@ -30,7 +30,7 @@
     "jest": "24.8.0",
     "npm-merge-driver": "2.3.5",
     "pre-git": "3.17.1",
-    "semantic-release": "15.13.18",
+    "semantic-release": "15.13.19",
     "snyk": "1.203.0",
     "bower": "1.8.8",
     "dart-sass": "1.22.9",
