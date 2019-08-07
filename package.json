@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/hfreire/vinodavita-com#readme",
   "devDependencies": {
-    "coveralls": "3.0.5",
+    "coveralls": "3.0.6",
     "eslint": "6.1.0",
     "eslint-config-hfreire": "2.0.3",
     "eslint-plugin-import": "2.18.2",
