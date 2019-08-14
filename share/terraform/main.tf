@@ -49,9 +49,10 @@ module "vinodavita-com" {
   name       = var.name
   aws_region = var.aws_region
 
-  service_desired_count                   = var.service_desired_count
+  service_desired_count = var.service_desired_count
 
   container_definitions            = data.template_file.container_definitions.rendered
+  health_check_timeout             = 10
   health_check_path_preappend_name = false
 
   cdn_enabled            = 1
