@@ -1,6 +1,7 @@
 # 
 
-[![Build Status](https://travis-ci.org/hfreire/gott-vin.svg?branch=master)](https://travis-ci.org/hfreire/gott-vin)
+[![](https://github.com/hfreire/gott-vin/workflows/ci/badge.svg)](https://github.com/hfreire/gott-vin/actions?workflow=ci)
+[![](https://github.com/hfreire/gott-vin/workflows/cd/badge.svg)](https://github.com/hfreire/gott-vin/actions?workflow=cd)
 [![Coverage Status](https://coveralls.io/repos/github/hfreire/gott-vin/badge.svg?branch=master)](https://coveralls.io/github/hfreire/gott-vin?branch=master)
 [![Known Vulnerabilities](https://snyk.io/test/github/hfreire/gott-vin/badge.svg)](https://snyk.io/test/github/hfreire/gott-vin)
 [![](https://img.shields.io/github/release/hfreire/gott-vin.svg)](https://github.com/hfreire/gott-vin/releases)
