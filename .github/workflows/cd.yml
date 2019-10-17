@@ -28,6 +28,8 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push docker image
+        run: npm run push
       - name: Setup terraform
         run: |
           curl -fSL "https://releases.hashicorp.com/terraform/0.12.9/terraform_0.12.9_linux_amd64.zip" -o terraform.zip && \
