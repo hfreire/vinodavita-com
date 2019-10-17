@@ -1,11 +1,11 @@
 # 
 
-[![Build Status](https://travis-ci.org/hfreire/vinodavita-com.svg?branch=master)](https://travis-ci.org/hfreire/vinodavita-com)
-[![Coverage Status](https://coveralls.io/repos/github/hfreire/vinodavita-com/badge.svg?branch=master)](https://coveralls.io/github/hfreire/vinodavita-com?branch=master)
-[![Known Vulnerabilities](https://snyk.io/test/github/hfreire/vinodavita-com/badge.svg)](https://snyk.io/test/github/hfreire/vinodavita-com)
-[![](https://img.shields.io/github/release/hfreire/vinodavita-com.svg)](https://github.com/hfreire/vinodavita-com/releases)
-[![Docker Stars](https://img.shields.io/docker/stars/hfreire/vinodavita-com.svg)](https://hub.docker.com/r/hfreire/vinodavita-com/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/hfreire/vinodavita-com.svg)](https://hub.docker.com/r/hfreire/vinodavita-com/)
+[![Build Status](https://travis-ci.org/hfreire/gott-vin.svg?branch=master)](https://travis-ci.org/hfreire/gott-vin)
+[![Coverage Status](https://coveralls.io/repos/github/hfreire/gott-vin/badge.svg?branch=master)](https://coveralls.io/github/hfreire/gott-vin?branch=master)
+[![Known Vulnerabilities](https://snyk.io/test/github/hfreire/gott-vin/badge.svg)](https://snyk.io/test/github/hfreire/gott-vin)
+[![](https://img.shields.io/github/release/hfreire/gott-vin.svg)](https://github.com/hfreire/gott-vin/releases)
+[![Docker Stars](https://img.shields.io/docker/stars/hfreire/gott-vin.svg)](https://hub.docker.com/r/hfreire/gott-vin/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/hfreire/gott-vin.svg)](https://hub.docker.com/r/hfreire/gott-vin/)
 
 > Uses Ghost blogging platform for publishing and managing content online
 
@@ -23,18 +23,18 @@ Using it in your terminal requires [Docker](https://www.docker.com) installed in
 ##### Run the Docker image in a container 
 Detach from the container and expose port `6734`.
 ```
-docker run -d -p "6734:3000" hfreire/vinodavita-com
+docker run -d -p "6734:3000" hfreire/gott-vin
 ```
 
 ### How to build
 ##### Clone the GitHub repo
 ```
-git clone https://github.com/hfreire/vinodavita-com.git
+git clone https://github.com/hfreire/gott-vin.git
 ```
 
 ##### Change current directory
 ```
-cd vinodavita-com
+cd gott-vin
 ```
 
 ##### Run the NPM script that will build the Docker image
@@ -49,12 +49,12 @@ Deploying it from your terminal requires [terraform](https://www.terraform.io) i
 
 ##### Clone the GitHub repo
 ```
-git clone https://github.com/hfreire/vinodavita-com.git
+git clone https://github.com/hfreire/gott-vin.git
 ```
 
 ##### Change current directory
 ```
-cd vinodavita-com
+cd gott-vin
 ```
 
 ##### Run the NPM script that will deploy all functions

@@ -15,7 +15,7 @@ variable "docker_image_tag" {
 }
 
 variable "name" {
-  default = "vinodavita-com"
+  default = "gott-vin"
 }
 
 variable "aws_region" {

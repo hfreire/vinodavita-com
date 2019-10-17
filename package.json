@@ -1,5 +1,5 @@
 {
-  "name": "vinodavita-com",
+  "name": "gott-vin",
   "description": "",
   "version": "0.0.0",
   "engines": {
@@ -9,12 +9,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hfreire/vinodavita-com.git"
+    "url": "git+https://github.com/hfreire/gott-vin.git"
   },
   "bugs": {
-    "url": "https://github.com/hfreire/vinodavita-com/issues"
+    "url": "https://github.com/hfreire/gott-vin/issues"
   },
-  "homepage": "https://github.com/hfreire/vinodavita-com#readme",
+  "homepage": "https://github.com/hfreire/gott-vin#readme",
   "devDependencies": {
     "coveralls": "3.0.7",
     "eslint": "6.5.1",
@@ -112,6 +112,6 @@
     "build": "npm run docker:build",
     "push": "npm run docker:push",
     "deploy": "npm run terraform:deploy",
-    "develop": "mkdir -p tmp && docker run -p 6734:3000 -e NODE_ENV=development -e url=http://localhost:6734 -v $(pwd)/src/:/home/node/vinodavita-com/src/ -v $(pwd)/tmp/:/var/lib/ghost/content/data/ hfreire/vinodavita-com"
+    "develop": "mkdir -p tmp && docker run -p 6734:3000 -e NODE_ENV=development -e url=http://localhost:6734 -v $(pwd)/src/:/home/node/gott-vin/src/ -v $(pwd)/tmp/:/var/lib/ghost/content/data/ hfreire/gott-vin"
   }
 }

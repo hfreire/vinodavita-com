@@ -40,7 +40,7 @@ terraform get -update=true || error_and_exit "$LINENO: terraform get failed."
 
 terraform plan -input=false -out $TF_PLAN -target=${TF_TARGET:-"module.${NAME}"} || error_and_exit "$LINENO: terraform plan failed."
 
-terraform apply -input=false -auto-approve $TF_PLAN || error_and_exit "$LINENO: terraform apply failed."
+#terraform apply -input=false -auto-approve $TF_PLAN || error_and_exit "$LINENO: terraform apply failed."
 
 [ -f ./post-deploy.sh ] && . ./post-deploy.sh
 
