@@ -22,7 +22,7 @@ jobs:
       - name: Test source code
         run: npm test
       - name: Test docker image
-        run: npm docker:test
+        run: npm run docker:test
       - name: Submit coveralls test coverage report
         run: npm run coveralls
         env:
