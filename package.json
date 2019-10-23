@@ -33,7 +33,7 @@
     "semantic-release": "15.13.27",
     "snyk": "1.236.1",
     "bower": "1.8.8",
-    "dart-sass": "1.23.0",
+    "dart-sass": "1.23.1",
     "gulp": "4.0.2",
     "node-sass": "4.12.0",
     "clipboard": "2.0.4",
