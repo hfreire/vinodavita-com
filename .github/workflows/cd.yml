@@ -2,7 +2,7 @@ name: cd
 
 on:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
   deploy:
@@ -16,6 +16,10 @@ jobs:
       VERSION_COMMIT: ${{ github.sha }}
 
     steps:
+      - name: Print GitHub Context # Debug step
+          env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}
+          run: echo "$GITHUB_CONTEXT"
       - uses: actions/checkout@v1
         with:
           ref: ${{ github.ref }}
