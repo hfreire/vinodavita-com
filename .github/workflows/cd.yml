@@ -12,14 +12,11 @@ jobs:
     env:
       CI: true
       TF_IN_AUTOMATION: true
-      VERSION: ${{ github.ref }}
       VERSION_COMMIT: ${{ github.sha }}
 
     steps:
-      - name: Print GitHub Context # Debug step
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+      - name: Set VERSION env var
+          run: echo ::set-env name=VERSION::${GITHUB_REF##*/}
       - uses: actions/checkout@v1
         with:
           ref: ${{ github.ref }}
