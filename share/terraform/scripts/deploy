@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -Eeuo pipefail
+
 TF_IN_AUTOMATION=true
 TF_PLAN=terraform.tfplan
 
