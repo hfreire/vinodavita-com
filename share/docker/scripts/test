@@ -9,13 +9,11 @@ IMAGE_NAME=$(if [ -z ${IMAGE_NAME-} ]; then echo $DOCKER_REPO/$NAME:$VERSION; el
 
 pushd $(cd -P -- "$(dirname -- "$0")" && pwd -P)/..
 
-./scripts/build
+CID=$(docker run --entrypoint "./test.sh" -d $IMAGE_NAME)
 
-docker run --name sut --entrypoint "./test.sh" -d ${IMAGE_NAME}
+docker logs -f $CID
 
-docker logs -f sut
-
-RET=`docker wait sut`
+RET=$(docker wait $CID)
 
 popd
 

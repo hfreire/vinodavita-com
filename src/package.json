@@ -2,6 +2,9 @@
   "name": "gott-vin",
   "description": "",
   "version": "0.0.0",
+  "keywords": [
+    "ghost-theme"
+  ],
   "engines": {
     "ghost-api": "v2"
   },
