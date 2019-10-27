@@ -109,10 +109,8 @@
     "test": "npm run clean && npm run lint && npm run jest && npm run ghost:test",
     "bower:install": "./node_modules/.bin/bower install",
     "gulp:build": "./node_modules/.bin/gulp build",
-    "compile": "npm run clean && npm run bower:install && npm run gulp:build",
+    "build": "npm run clean && npm run bower:install && npm run gulp:build",
     "commit": "./node_modules/.bin/commit-wizard",
-    "build": "npm run docker:build",
-    "push": "npm run docker:push",
     "deploy": "npm run terraform:deploy",
     "develop": "mkdir -p tmp && docker run -p 6734:3000 -e NODE_ENV=development -e url=http://localhost:6734 -v $(pwd)/src/:/home/node/gott-vin/src/ -v $(pwd)/tmp/:/var/lib/ghost/content/data/ hfreire/gott-vin"
   }
