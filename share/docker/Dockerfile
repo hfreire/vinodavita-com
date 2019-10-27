@@ -14,12 +14,14 @@ ARG VERSION_BUILD_DATE
 ENV VERSION_BUILD_DATE $VERSION_BUILD_DATE
 
 # Create app directory
-RUN mkdir /home/node/$NAME \
-  && chown node:node /home/node/$NAME
+RUN set -eux; \
+  mkdir /home/node/$NAME; \
+  chown node:node /home/node/$NAME
 WORKDIR /home/node/$NAME
 
 # Install utils
-RUN apk --no-cache add \
+RUN set -x \
+  && apk --no-cache add \
     su-exec \
     curl \
     netcat-openbsd
@@ -35,7 +37,8 @@ COPY --chown=node:node share/docker/start.sh start.sh
 COPY --chown=node:node share/docker/test.sh test.sh
 
 # Install npm packages and build app source
-RUN apk --no-cache add --virtual .npm-deps \
+RUN set -x \
+  && apk --no-cache add --virtual .npm-deps \
     git \
   && su-exec node npm install --only=development \
   && su-exec node npm run build --if-present \
@@ -47,7 +50,8 @@ RUN apk --no-cache add --virtual .npm-deps \
 COPY --chown=node:node share/ghost/config.production.json $GHOST_INSTALL/config.production.json
 COPY --chown=node:node share/ghost/default-settings.json $GHOST_INSTALL/current/core/server/data/schema/default-settings.json
 COPY --chown=node:node share/ghost/ghost.patch $GHOST_INSTALL/ghost.patch
-RUN cd $GHOST_INSTALL && su-exec node patch -p1 < ghost.patch && rm ghost.patch \
+RUN set -x \
+  && cd $GHOST_INSTALL && su-exec node patch -p1 < ghost.patch && rm ghost.patch \
   && su-exec node ln -s /home/node/$NAME/src $GHOST_INSTALL/current/content/themes/$NAME \
   && su-exec node ln -s $GHOST_INSTALL/current/content/themes/$NAME $GHOST_INSTALL/content.orig/themes/$NAME
 
