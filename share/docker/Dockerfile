@@ -34,11 +34,11 @@ COPY --chown=node:node src src/
 COPY --chown=node:node share/docker/start.sh start.sh
 COPY --chown=node:node share/docker/test.sh test.sh
 
-# Install npm packages and compile app source
+# Install npm packages and build app source
 RUN apk --no-cache add --virtual .npm-deps \
     git \
   && su-exec node npm install --only=development \
-  && su-exec node npm run compile \
+  && su-exec node npm run build --if-present \
   && su-exec node npm cache clean --force \
   && rm -rf bower_components && rm -rf node_modules && rm -rf /tmp/phatomjs \
   && apk del .npm-deps
