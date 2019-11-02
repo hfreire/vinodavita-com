@@ -48,7 +48,7 @@ index c282e53b9..22ec7f957 100644
 +        }
 +
 +        if (req.headers['user-agent'] !== 'Amazon CloudFront') {
-+            common.logging.info(`${req.ips || req.ip} - ${req.userId || '-'} [${new Date().toISOString()}] "${req.method} ${req.originalUrl}" HTTP/${req.httpVersionMajor}.${req.httpVersionMinor} ${res.statusCode} ${res.getHeader('content-length') || (res.__headers && res.__headers['Content-Length']) || '-'} "${req.get('referer') || '-'}" "${req.get('user-agent') || '-'}" ${res.responseTime}`);
++            common.logging.debug(`${req.ips || req.ip} - ${req.userId || '-'} [${new Date().toISOString()}] "${req.method} ${req.originalUrl}" HTTP/${req.httpVersionMajor}.${req.httpVersionMinor} ${res.statusCode} ${res.getHeader('content-length') || (res.__headers && res.__headers['Content-Length']) || '-'} "${req.get('referer') || '-'}" "${req.get('user-agent') || '-'}" ${res.responseTime}`);
          }
 
          res.removeListener('finish', logResponse);
@@ -56,7 +56,7 @@ diff --git a/current/core/server/lib/common/logging.js b/current/core/server/lib
 index d3d332a42..d312b3a02 100644
 --- a/current/core/server/lib/common/logging.js
 +++ b/current/core/server/lib/common/logging.js
-@@ -1,15 +1,13 @@
+@@ -1,15 +1,14 @@
 -const config = require('../../config'),
 -    {logging} = require('ghost-ignition');
 -
@@ -76,7 +76,8 @@ index d3d332a42..d312b3a02 100644
 +    transports: {
 +        console: [
 +            {
-+                colorize: false
++                colorize: false,
++                timestamp: false
 +            }
 +        ]
 +    },

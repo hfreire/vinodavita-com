@@ -27,6 +27,10 @@ variable "service_desired_count" {
   default = 1
 }
 
+variable "log_level" {
+  default = "debug"
+}
+
 variable "cdn_hostname" {
 }
 
