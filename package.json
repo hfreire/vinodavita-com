@@ -56,7 +56,7 @@
     "primer-tooltips": "2.0.0",
     "prismjs": "1.17.1",
     "run-sequence": "2.2.1",
-    "semantic-release": "15.13.30",
+    "semantic-release": "15.13.31",
     "snyk": "1.249.0"
   },
   "config": {
