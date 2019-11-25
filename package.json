@@ -21,7 +21,7 @@
     "concat": "3.0.0",
     "coveralls": "3.0.8",
     "dart-sass": "1.23.7",
-    "eslint": "6.6.0",
+    "eslint": "6.7.1",
     "eslint-config-hfreire": "2.0.5",
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-jest": "23.0.4",
