@@ -3,7 +3,7 @@
     "name": "${name}",
     "image": "${image}",
     "cpu": 256,
-    "memoryReservation": 512,
+    "memoryReservation": 1024,
     "links": [],
     "portMappings": [
       {
