@@ -67,3 +67,6 @@ variable "mail__options__auth__pass" {
 variable "database_user_password" {
   default = null
 }
+
+variable "images_cdn_hostname" {
+}

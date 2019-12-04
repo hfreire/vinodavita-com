@@ -11,6 +11,13 @@ provider "aws" {
   region = var.aws_region
 }
 
+provider "aws" {
+  version = "2.14.0"
+
+  alias  = "global"
+  region = "us-east-1"
+}
+
 provider "template" {
   version = "2.1.2"
 }
@@ -70,4 +77,166 @@ module "database" {
   name                = var.name
 
   user_password = var.database_user_password
+}
+
+resource "aws_acm_certificate" "images_cdn" {
+  provider = aws.global
+
+  domain_name       = var.images_cdn_hostname
+  validation_method = "DNS"
+}
+
+data "aws_route53_zone" "selected" {
+  name         = "${var.cdn_hostname}."
+  private_zone = false
+}
+
+resource "aws_route53_record" "images_cdn" {
+  name    = aws_acm_certificate.images_cdn.domain_validation_options[ 0 ].resource_record_name
+  type    = aws_acm_certificate.images_cdn.domain_validation_options[ 0 ].resource_record_type
+  zone_id = data.aws_route53_zone.selected.id
+
+  records = [
+    aws_acm_certificate.images_cdn.domain_validation_options[ 0 ].resource_record_value,
+  ]
+
+  ttl = 60
+}
+
+resource "aws_acm_certificate_validation" "images_cdn" {
+  provider = aws.global
+
+  certificate_arn = aws_acm_certificate.images_cdn.arn
+
+  validation_record_fqdns = [
+    aws_route53_record.images_cdn.fqdn
+  ]
+}
+
+
+resource "aws_s3_bucket" "images_cdn" {
+  bucket = var.images_cdn_hostname
+  acl    = "private"
+
+  website {
+    index_document = "index.html"
+  }
+}
+
+resource "aws_s3_bucket_policy" "images_cdn" {
+  bucket = aws_s3_bucket.images_cdn.id
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "s3:GetObject",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Resource": "${aws_s3_bucket.images_cdn.arn}/*",
+            "Effect": "Allow"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_cloudfront_distribution" "images_cdn" {
+  enabled = true
+
+  origin {
+    domain_name = aws_s3_bucket.images_cdn.website_endpoint
+    origin_id   = "S3-${aws_s3_bucket.images_cdn.bucket}"
+
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = [
+        "TLSv1",
+        "TLSv1.1",
+        "TLSv1.2",
+      ]
+    }
+  }
+
+  aliases = [
+    var.images_cdn_hostname ]
+
+  is_ipv6_enabled = true
+
+  default_cache_behavior {
+    allowed_methods  = [
+      "GET",
+      "HEAD"
+    ]
+    cached_methods   = [
+      "GET",
+      "HEAD",
+    ]
+    target_origin_id = "S3-${aws_s3_bucket.images_cdn.bucket}"
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    compress = true
+
+    viewer_protocol_policy = "redirect-to-https"
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  viewer_certificate {
+    acm_certificate_arn      = aws_acm_certificate.images_cdn.arn
+    ssl_support_method       = "sni-only"
+    minimum_protocol_version = "TLSv1.1_2016"
+  }
+}
+
+data "aws_iam_role" "selected" {
+  name = module.service.aws_iam_role_name
+
+  depends_on = [
+    module.service
+  ]
+}
+
+resource "aws_iam_role_policy" "service" {
+  name = var.name
+  role = data.aws_iam_role.selected.id
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "s3:ListBucket",
+            "Resource": "${aws_s3_bucket.images_cdn.arn}",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:PutObjectVersionAcl",
+                "s3:DeleteObject",
+                "s3:PutObjectAcl"
+            ],
+            "Resource": "${aws_s3_bucket.images_cdn.arn}/*",
+            "Effect": "Allow"
+        }
+    ]
+}
+EOF
 }
