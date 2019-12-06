@@ -48,6 +48,8 @@ data "template_file" "container_definitions" {
     mail__options__host                     = var.mail__options__host
     mail__options__auth__user               = var.mail__options__auth__user
     mail__options__auth__pass               = var.mail__options__auth__pass
+    storage__s3__bucket                     = var.images_cdn_hostname
+    storage__s3__assetHost                  = "//${var.images_cdn_hostname}"
   }
 }
 
@@ -91,7 +93,7 @@ data "aws_route53_zone" "selected" {
   private_zone = false
 }
 
-resource "aws_route53_record" "images_cdn" {
+resource "aws_route53_record" "images_cdn_validation" {
   name    = aws_acm_certificate.images_cdn.domain_validation_options[ 0 ].resource_record_name
   type    = aws_acm_certificate.images_cdn.domain_validation_options[ 0 ].resource_record_type
   zone_id = data.aws_route53_zone.selected.id
@@ -109,17 +111,19 @@ resource "aws_acm_certificate_validation" "images_cdn" {
   certificate_arn = aws_acm_certificate.images_cdn.arn
 
   validation_record_fqdns = [
-    aws_route53_record.images_cdn.fqdn
+    aws_route53_record.images_cdn_validation.fqdn
   ]
 }
 
+resource "aws_cloudfront_origin_access_identity" "images_cdn" {
+}
 
 resource "aws_s3_bucket" "images_cdn" {
   bucket = var.images_cdn_hostname
   acl    = "private"
 
-  website {
-    index_document = "index.html"
+  tags = {
+    IsAntifragile = true
   }
 }
 
@@ -133,7 +137,7 @@ resource "aws_s3_bucket_policy" "images_cdn" {
         {
             "Action": "s3:GetObject",
             "Principal": {
-                "AWS": "*"
+                "AWS": "${aws_cloudfront_origin_access_identity.images_cdn.iam_arn}"
             },
             "Resource": "${aws_s3_bucket.images_cdn.arn}/*",
             "Effect": "Allow"
@@ -147,18 +151,11 @@ resource "aws_cloudfront_distribution" "images_cdn" {
   enabled = true
 
   origin {
-    domain_name = aws_s3_bucket.images_cdn.website_endpoint
+    domain_name = aws_s3_bucket.images_cdn.bucket_regional_domain_name
     origin_id   = "S3-${aws_s3_bucket.images_cdn.bucket}"
 
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "http-only"
-      origin_ssl_protocols   = [
-        "TLSv1",
-        "TLSv1.1",
-        "TLSv1.2",
-      ]
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.images_cdn.cloudfront_access_identity_path
     }
   }
 
@@ -201,6 +198,19 @@ resource "aws_cloudfront_distribution" "images_cdn" {
     acm_certificate_arn      = aws_acm_certificate.images_cdn.arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.1_2016"
+  }
+}
+
+resource "aws_route53_record" "images_cdn" {
+  zone_id = data.aws_route53_zone.selected.zone_id
+  name    = var.images_cdn_hostname
+  type    = "A"
+
+  alias {
+    name    = aws_cloudfront_distribution.images_cdn.domain_name
+    zone_id = aws_cloudfront_distribution.images_cdn.hosted_zone_id
+
+    evaluate_target_health = false
   }
 }
 

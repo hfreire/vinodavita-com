@@ -2,8 +2,9 @@
   {
     "name": "${name}",
     "image": "${image}",
-    "cpu": 256,
-    "memoryReservation": 1024,
+    "cpu": 128,
+    "memory": 1024,
+    "memoryReservation": 256,
     "links": [],
     "portMappings": [
       {
@@ -66,6 +67,14 @@
       {
         "name": "mail__options__auth__pass",
         "value": "${mail__options__auth__pass}"
+      },
+      {
+        "name": "storage__s3__bucket",
+        "value": "${storage__s3__bucket}"
+      },
+      {
+        "name": "storage__s3__assetHost",
+        "value": "${storage__s3__assetHost}"
       }
     ],
     "secrets": [

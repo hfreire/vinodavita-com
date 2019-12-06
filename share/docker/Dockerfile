@@ -1,4 +1,4 @@
-FROM ghost:3.1.1-alpine
+FROM ghost:3.0.0-alpine
 
 LABEL maintainer="hugo@exec.sh"
 
@@ -54,7 +54,8 @@ RUN set -x \
   && cd $GHOST_INSTALL && su-exec node patch -p1 < ghost.patch && rm ghost.patch \
   && su-exec node ln -s /home/node/$NAME/src $GHOST_INSTALL/current/content/themes/$NAME \
   && su-exec node ln -s $GHOST_INSTALL/current/content/themes/$NAME $GHOST_INSTALL/content.orig/themes/$NAME \
-  && cd $GHOST_INSTALL/current && su-exec node yarn add modern-logger@1.5.53 \
+  && cd $GHOST_INSTALL/current && su-exec node yarn add modern-logger@1.5.53 ghost-storage-adapter-s3@2.8.0 \
+  && su-exec node ln -s $GHOST_INSTALL/current/node_modules/ghost-storage-adapter-s3 $GHOST_INSTALL/current/core/server/adapters/storage/s3 \
   && su-exec node yarn cache clean && su-exec node npm cache clean --force && npm cache clean --force && rm -rv /tmp/yarn* /tmp/v8*
 
 EXPOSE 3000

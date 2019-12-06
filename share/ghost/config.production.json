@@ -21,5 +21,8 @@
   "process": "systemd",
   "paths": {
     "contentPath": "/var/lib/ghost/content"
+  },
+  "storage": {
+    "active": "s3"
   }
 }

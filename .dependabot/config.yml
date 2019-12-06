@@ -15,3 +15,7 @@ update_configs:
       prefix: "fix"
       prefix_development: "chore"
       include_scope: true
+    ignored_updates:
+      - match:
+          # https://github.com/TryGhost/Ghost/issues/11129, https://github.com/lovell/sharp/issues/1990
+          dependency_name: "ghost"
