@@ -57,7 +57,7 @@
     "prismjs": "1.17.1",
     "run-sequence": "2.2.1",
     "semantic-release": "15.13.31",
-    "snyk": "1.257.0"
+    "snyk": "1.256.0"
   },
   "config": {
     "pre-git": {
@@ -112,6 +112,6 @@
     "build": "npm run clean && npm run bower:install && npm run gulp:build",
     "commit": "./node_modules/.bin/commit-wizard",
     "deploy": "npm run terraform:deploy",
-    "develop": "mkdir -p tmp && docker run -p 6734:3000 -e NODE_ENV=development -e url=http://localhost:6734 -v $(pwd)/src/:/home/node/gott-vin/src/ -v $(pwd)/tmp/:/var/lib/ghost/content/data/ hfreire/gott-vin:latest"
+    "develop": "mkdir -p tmp && docker run -p 6734:3000 -e NODE_ENV=development -e url=http://localhost:6734 -e storage__active=undefined -e LOG_LEVEL=debug -v $(pwd)/src/:/home/node/gott-vin/src/ -v $(pwd)/tmp/:/var/lib/ghost/content/data/ hfreire/gott-vin:latest"
   }
 }
