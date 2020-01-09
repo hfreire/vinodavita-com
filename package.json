@@ -57,7 +57,7 @@
     "prismjs": "1.18.0",
     "run-sequence": "2.2.1",
     "semantic-release": "15.14.0",
-    "snyk": "1.277.2"
+    "snyk": "1.277.3"
   },
   "config": {
     "pre-git": {
