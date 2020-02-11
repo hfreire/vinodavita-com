@@ -1,23 +1,34 @@
-FROM ghost:3.1.1-alpine
+FROM ghost:3.1.1-alpine AS ghost
 
-LABEL maintainer="hugo@exec.sh"
-
-# Set app runtime environment variables
-ARG NPM_TOKEN
+FROM ghost AS build
 ARG NAME
-ENV NAME $NAME
-ARG VERSION
-ENV VERSION $VERSION
-ARG VERSION_COMMIT
-ENV VERSION_COMMIT $VERSION_COMMIT
-ARG VERSION_BUILD_DATE
-ENV VERSION_BUILD_DATE $VERSION_BUILD_DATE
+ARG NPM_TOKEN
 
-# Create app directory
-RUN set -eux; \
-  mkdir /home/node/$NAME; \
-  chown node:node /home/node/$NAME
+RUN su-exec node mkdir /home/node/$NAME
 WORKDIR /home/node/$NAME
+
+# Install npm packages
+COPY --chown=node:node package.json package-lock.json .snyk ./
+RUN NODE_ENV= su-exec node npm ci
+
+# Build app
+COPY --chown=node:node src src/
+COPY --chown=node:node bower.json gulpfile.js ./
+RUN set -x \
+  && apk --no-cache add --virtual .npm-deps \
+    git \
+  && su-exec node npm run build --if-present \
+  && su-exec node npm prune --production \
+  && su-exec node npm cache clean --force \
+  && su-exec node rm -rf bower_components && su-exec node rm -rf node_modules && su-exec node rm -rf /tmp/phatomjs \
+  && apk del .npm-deps
+
+FROM ghost
+LABEL maintainer="hugo@exec.sh"
+ARG NAME
+ARG VERSION
+ARG VERSION_COMMIT
+ARG VERSION_BUILD_DATE
 
 # Install utils
 RUN set -x \
@@ -26,25 +37,13 @@ RUN set -x \
     curl \
     netcat-openbsd
 
-# Copy app source
-COPY --chown=node:node package.json package.json
-COPY --chown=node:node package-lock.json package-lock.json
-COPY --chown=node:node bower.json bower.json
-COPY --chown=node:node gulpfile.js gulpfile.js
-COPY --chown=node:node .snyk .snyk
-COPY --chown=node:node src src/
+RUN su-exec node mkdir /home/node/$NAME
+WORKDIR /home/node/$NAME
+
+# Copy app build
+COPY --from=build --chown=node:node /home/node/$NAME /home/node/$NAME
 COPY --chown=node:node share/docker/start.sh start.sh
 COPY --chown=node:node share/docker/test.sh test.sh
-
-# Install npm packages and build app source
-RUN set -x \
-  && apk --no-cache add --virtual .npm-deps \
-    git \
-  && su-exec node npm install --only=development \
-  && su-exec node npm run build --if-present \
-  && su-exec node npm cache clean --force \
-  && rm -rf bower_components && rm -rf node_modules && rm -rf /tmp/phatomjs \
-  && apk del .npm-deps
 
 # Patch ghost installation
 COPY --chown=node:node share/ghost/config.production.json $GHOST_INSTALL/config.production.json
@@ -57,6 +56,12 @@ RUN set -x \
   && cd $GHOST_INSTALL/current && su-exec node yarn add modern-logger@1.5.53 ghost-storage-adapter-s3@2.8.0 \
   && su-exec node ln -s $GHOST_INSTALL/current/node_modules/ghost-storage-adapter-s3 $GHOST_INSTALL/current/core/server/adapters/storage/s3 \
   && su-exec node yarn cache clean && su-exec node npm cache clean --force && npm cache clean --force && rm -rv /tmp/yarn* /tmp/v8*
+
+# Set app runtime environment variables
+ENV NAME $NAME
+ENV VERSION $VERSION
+ENV VERSION_COMMIT $VERSION_COMMIT
+ENV VERSION_BUILD_DATE $VERSION_BUILD_DATE
 
 EXPOSE 3000
 
