@@ -13,11 +13,12 @@ RUN set -x \
   && cd $GHOST_INSTALL \
     && su-exec node patch -p1 < ghost.patch \
     && rm ghost.patch \
+  && cd $GHOST_INSTALL/current \
     && su-exec node yarn add modern-logger@1.5.53 ghost-storage-adapter-s3@2.8.0 \
     && su-exec node ln -s $GHOST_INSTALL/current/node_modules/ghost-storage-adapter-s3 $GHOST_INSTALL/current/core/server/adapters/storage/s3 \
     && su-exec node yarn cache clean \
     && npm cache clean --force \
-    && rm -rv /tmp/v8*
+    && rm -rv /tmp/yarn* /tmp/v8*
 
 # Replace default ghost assets and configuration
 COPY --chown=node:node share/ghost/config.production.json $GHOST_INSTALL/config.production.json
@@ -67,7 +68,6 @@ COPY --chown=node:node share/docker/test.sh test.sh
 RUN set -x \
   && su-exec node ln -s /home/node/$NAME/src $GHOST_INSTALL/current/content/themes/$NAME \
   && su-exec node ln -s $GHOST_INSTALL/current/content/themes/$NAME $GHOST_INSTALL/content.orig/themes/$NAME
-
 
 # Set app runtime environment variables
 ENV NAME $NAME
