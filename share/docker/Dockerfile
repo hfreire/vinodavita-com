@@ -1,27 +1,52 @@
 FROM ghost:3.1.1-alpine AS ghost
 
-FROM ghost AS build
+# Install utils
+RUN set -x \
+  && apk --no-cache add \
+    su-exec \
+    curl \
+    netcat-openbsd
+
+# Patch ghost code
+COPY --chown=node:node share/ghost/ghost.patch $GHOST_INSTALL/ghost.patch
+RUN set -x \
+  && cd $GHOST_INSTALL \
+    && su-exec node patch -p1 < ghost.patch \
+    && rm ghost.patch \
+    && su-exec node yarn add modern-logger@1.5.53 ghost-storage-adapter-s3@2.8.0 \
+    && su-exec node ln -s $GHOST_INSTALL/current/node_modules/ghost-storage-adapter-s3 $GHOST_INSTALL/current/core/server/adapters/storage/s3 \
+    && su-exec node yarn cache clean \
+    && npm cache clean --force \
+    && rm -rv /tmp/v8*
+
+# Replace default ghost assets and configuration
+COPY --chown=node:node share/ghost/config.production.json $GHOST_INSTALL/config.production.json
+COPY --chown=node:node share/ghost/default-settings.json $GHOST_INSTALL/current/core/server/data/schema/default-settings.json
+
+FROM ghost AS prebuild
+
+RUN apk --no-cache add git
+
+FROM prebuild AS build
 ARG NAME
 ARG NPM_TOKEN
+USER node
 
-RUN su-exec node mkdir /home/node/$NAME
+RUN mkdir /home/node/$NAME
 WORKDIR /home/node/$NAME
 
 # Install npm packages
 COPY --chown=node:node package.json package-lock.json .snyk ./
-RUN NODE_ENV= su-exec node npm ci
+RUN NODE_ENV= npm ci
 
 # Build app
 COPY --chown=node:node src src/
 COPY --chown=node:node bower.json gulpfile.js ./
 RUN set -x \
-  && apk --no-cache add --virtual .npm-deps \
-    git \
-  && su-exec node npm run build --if-present \
-  && su-exec node npm prune --production \
-  && su-exec node npm cache clean --force \
-  && su-exec node rm -rf bower_components && su-exec node rm -rf node_modules && su-exec node rm -rf /tmp/phatomjs \
-  && apk del .npm-deps
+  && npm run build --if-present \
+  && npm prune --production \
+  && npm cache clean --force \
+  && rm -rf bower_components && rm -rf node_modules && rm -rf /tmp/phatomjs
 
 FROM ghost
 LABEL maintainer="hugo@exec.sh"
@@ -29,13 +54,6 @@ ARG NAME
 ARG VERSION
 ARG VERSION_COMMIT
 ARG VERSION_BUILD_DATE
-
-# Install utils
-RUN set -x \
-  && apk --no-cache add \
-    su-exec \
-    curl \
-    netcat-openbsd
 
 RUN su-exec node mkdir /home/node/$NAME
 WORKDIR /home/node/$NAME
@@ -45,17 +63,11 @@ COPY --from=build --chown=node:node /home/node/$NAME /home/node/$NAME
 COPY --chown=node:node share/docker/start.sh start.sh
 COPY --chown=node:node share/docker/test.sh test.sh
 
-# Patch ghost installation
-COPY --chown=node:node share/ghost/config.production.json $GHOST_INSTALL/config.production.json
-COPY --chown=node:node share/ghost/default-settings.json $GHOST_INSTALL/current/core/server/data/schema/default-settings.json
-COPY --chown=node:node share/ghost/ghost.patch $GHOST_INSTALL/ghost.patch
+# Link app with ghost installation
 RUN set -x \
-  && cd $GHOST_INSTALL && su-exec node patch -p1 < ghost.patch && rm ghost.patch \
   && su-exec node ln -s /home/node/$NAME/src $GHOST_INSTALL/current/content/themes/$NAME \
-  && su-exec node ln -s $GHOST_INSTALL/current/content/themes/$NAME $GHOST_INSTALL/content.orig/themes/$NAME \
-  && cd $GHOST_INSTALL/current && su-exec node yarn add modern-logger@1.5.53 ghost-storage-adapter-s3@2.8.0 \
-  && su-exec node ln -s $GHOST_INSTALL/current/node_modules/ghost-storage-adapter-s3 $GHOST_INSTALL/current/core/server/adapters/storage/s3 \
-  && su-exec node yarn cache clean && su-exec node npm cache clean --force && npm cache clean --force && rm -rv /tmp/yarn* /tmp/v8*
+  && su-exec node ln -s $GHOST_INSTALL/current/content/themes/$NAME $GHOST_INSTALL/content.orig/themes/$NAME
+
 
 # Set app runtime environment variables
 ENV NAME $NAME
