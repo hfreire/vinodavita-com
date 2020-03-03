@@ -22,6 +22,7 @@
       text-align: left;
 
       &:after {
+        display: none;
         content: '';
         position: absolute;
         height: 1px;

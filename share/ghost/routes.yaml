@@ -1,0 +1,20 @@
+routes:
+  /:
+    template: home
+    data: page.home
+
+collections:
+  /blog/:
+    permalink: /blog/{slug}/
+    template: custom-blog
+    data: page.blog
+    filter: 'tags:-what-should-i-drink'
+  /nya-releaser/:
+    permalink: /nya-releaser/{slug}/
+    template: custom-new-releases
+    data: 'page.nya releaser'
+    filter: 'primary_tag:what-should-i-drink'
+
+taxonomies:
+  tag: /tag/{slug}/
+  author: /author/{slug}/

@@ -21,6 +21,8 @@ RUN set -x \
     && rm -rv /tmp/yarn* /tmp/v8*
 
 # Replace default ghost assets and configuration
+COPY --chown=node:node share/ghost/redirects.json $GHOST_INSTALL/content.orig/data/redirects.json
+COPY --chown=node:node share/ghost/routes.yaml $GHOST_INSTALL/content.orig/settings/routes.yaml
 COPY --chown=node:node share/ghost/config.production.json $GHOST_INSTALL/config.production.json
 COPY --chown=node:node share/ghost/default-settings.json $GHOST_INSTALL/current/core/server/data/schema/default-settings.json
 
