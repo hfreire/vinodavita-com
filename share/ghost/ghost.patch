@@ -85,3 +85,25 @@ index d3d332a42..d312b3a02 100644
  });
 +
 +module.exports = Logger;
+diff --git a/current/core/server/services/webhooks/trigger.js b/current/core/server/services/webhooks/trigger.js
+index ec9e919b4..e2c43b8d6 100644
+--- a/current/core/server/services/webhooks/trigger.js
++++ b/current/core/server/services/webhooks/trigger.js
+@@ -82,6 +82,17 @@ module.exports = (event, model) => {
+                             retry: 5
+                         };
+
++                        const secret = webhook.get('secret');
++                        if (secret) {
++                            const timestamp = Date.now();
++                            const signature = require('crypto')
++                                .createHmac('sha256', secret)
++                                .update(`${timestamp}.${reqPayload}`)
++                                .digest('hex');
++                            opts.headers['X-Ghost-Signature'] = signature;
++                            opts.headers['X-Ghost-Request-Timestamp'] = timestamp;
++                        }
++
+                         common.logging.info(`Trigger Webhook for  "${webhook.get('event')}" with url "${url}".`);
+
+                         request(url, opts)
