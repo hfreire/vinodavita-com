@@ -45,7 +45,7 @@
     "gulp-size": "3.0.0",
     "gulp-uglify": "3.0.2",
     "gulp-util": "3.0.8",
-    "jest": "26.0.1",
+    "jest": "26.1.0",
     "jshint": "2.11.1",
     "jshint-stylish": "2.2.1",
     "lunr": "2.3.8",
