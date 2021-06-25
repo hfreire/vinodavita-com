@@ -49,7 +49,7 @@
     "jshint-stylish": "2.2.1",
     "lunr": "2.3.9",
     "lunr-languages": "1.8.0",
-    "node-sass": "6.0.0",
+    "node-sass": "6.0.1",
     "npm-merge-driver": "2.3.6",
     "pre-git": "3.17.1",
     "primer-tooltips": "2.0.0",
